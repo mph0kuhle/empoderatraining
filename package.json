@@ -1,0 +1,17 @@
+{
+  "name": "empoderatraining",
+  "version": "1.0.0",
+  "description": "Professional corporate training landing page",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": ["corporate training", "accredited training", "workforce development"],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "vite": "^7.1.9"
+  }
+}
