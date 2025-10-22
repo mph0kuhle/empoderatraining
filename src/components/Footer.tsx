@@ -1,11 +1,129 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+// Re-import the necessary particle components
+import Particles, { initParticlesEngine } from "@tsparticles/react";
+import { loadSlim } from "@tsparticles/slim";
+
+// ⚠️ We need to re-define the particles options here since we cannot import them
+// from the Hero component directly without changing file structure
+const particlesOptions = {
+    background: {
+        color: {
+            value: "transparent", 
+        },
+    },
+    fpsLimit: 60,
+    interactivity: {
+        events: {
+            onClick: {
+                enable: true,
+                mode: "push",
+            },
+            onHover: {
+                enable: true,
+                mode: "grab",
+            },
+        },
+        modes: {
+            push: {
+                quantity: 4,
+            },
+            grab: {
+                distance: 150,
+                line_linked: {
+                    opacity: 1
+                }
+            }
+        },
+    },
+    particles: {
+        number: {
+            value: 40, // Reduced number for footer
+            density: {
+                enable: true,
+                value_area: 800,
+            },
+        },
+        color: {
+            value: ["#ffffff", "#93c5fd"], // Only white and light blue for darker footer
+        },
+        shape: {
+            type: "circle",
+        },
+        opacity: {
+            value: 0.4,
+            random: true,
+            anim: {
+                enable: true,
+                speed: 1,
+                opacity_min: 0.1,
+                sync: false,
+            },
+        },
+        size: {
+            value: 2, // Smaller size for footer
+            random: true,
+            anim: {
+                enable: true,
+                speed: 2,
+                size_min: 0.1,
+                sync: false,
+            },
+        },
+        line_linked: {
+            enable: true,
+            distance: 120,
+            color: "#ffffff",
+            opacity: 0.3,
+            width: 1,
+        },
+        move: {
+            enable: true,
+            speed: 0.5, // Slower movement for footer
+            direction: "none",
+            random: false,
+            straight: false,
+            out_mode: "out",
+            bounce: false,
+        },
+    },
+    detectRetina: true,
+};
 
 const Footer: React.FC = () => {
+
+    const [particlesInit, setParticlesInit] = React.useState(false);
+
+    React.useEffect(() => {
+        if (particlesInit) return;
+        initParticlesEngine(async (engine) => {
+            await loadSlim(engine);
+        }).then(() => {
+            setParticlesInit(true);
+        });
+    }, [particlesInit]);
+
   return (
-    // ⚠️ UPDATED: Changed the starting colour of the gradient to a deeper navy blue (#1e293b)
-    <footer className="bg-gradient-to-br from-[#1e293b] to-[#3349df] text-white py-12">
-      <div className="max-w-6xl mx-auto px-6">
+    // ⚠️ Added relative positioning and z-index to contain the particles
+    <footer className="relative bg-gradient-to-br from-[#1e293b] to-[#3349df] text-white py-12 overflow-hidden z-0">
+        
+        {/* ⚠️ PARTICLE EFFECT LAYER for Footer */}
+        {particlesInit && (
+            <Particles
+                id="tsparticles-footer"
+                options={particlesOptions as any}
+                style={{
+                    position: "absolute",
+                    width: "100%",
+                    height: "100%",
+                    zIndex: 0, // Behind the content
+                    top: 0,
+                    left: 0,
+                }}
+            />
+        )}
+
+      <div className="relative z-10 max-w-6xl mx-auto px-6">
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           
           {/* Logo & Tagline */}

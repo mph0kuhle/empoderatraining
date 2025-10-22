@@ -1,8 +1,15 @@
 {
+  "version": 2,
+  "build": {
+    "env": {
+      "NODE_ENV": "production"
+    },
+    "outputDirectory": "dist"
+  },
   "rewrites": [
-    { 
-      "source": "/(.*)", 
-      "destination": "/index.html" 
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
