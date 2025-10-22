@@ -45,6 +45,10 @@ const Footer: React.FC = () => {
           {/* Connect */}
           <div>
             <h4 className="font-bold mb-4">Connect</h4>
+            {/* ⚠️ UPDATED ADDRESS DETAILS */}
+            <p className="text-sm text-white/80 mb-1">Block A</p>
+            <p className="text-sm text-white/80 mb-3">Sandton</p>
+            {/* END UPDATED ADDRESS DETAILS */}
             <p className="text-sm text-white/80 mb-2">info@empodera.co.za</p>
             <p className="text-sm text-white/80">+27 11 123 4567</p>
           </div>
