@@ -1,21 +1,14 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Footer: React.FC = () => {
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
-    <footer className="bg-gradient-to-br from-[#2640c8] to-[#3349df] text-white py-12">
+    // ⚠️ UPDATED: Changed the starting colour of the gradient to a deeper navy blue (#1e293b)
+    <footer className="bg-gradient-to-br from-[#1e293b] to-[#3349df] text-white py-12">
       <div className="max-w-6xl mx-auto px-6">
         <div className="grid md:grid-cols-4 gap-8 mb-8">
+          
+          {/* Logo & Tagline */}
           <div>
             <img 
               src="https://d64gsuwffb70l.cloudfront.net/689f069373db79e875d8de8a_1760338302628_a7cf9aea.png" 
@@ -27,26 +20,29 @@ const Footer: React.FC = () => {
             </p>
           </div>
 
+          {/* Quick Links */}
           <div>
             <h4 className="font-bold mb-4">Quick Links</h4>
             <ul className="space-y-2 text-sm">
-              <li><button onClick={scrollToTop} className="hover:text-white/80 transition-colors">Home</button></li>
-              <li><button onClick={() => scrollToSection('programmes')} className="hover:text-white/80 transition-colors">Programmes</button></li>
-              <li><button onClick={scrollToTop} className="hover:text-white/80 transition-colors">About</button></li>
-              <li><button onClick={scrollToTop} className="hover:text-white/80 transition-colors">Contact</button></li>
+              <li><Link to="/" className="hover:text-white/80 transition-colors">Home</Link></li>
+              <li><Link to="/learnerships" className="hover:text-white/80 transition-colors">Programmes</Link></li>
+              <li><Link to="/about" className="hover:text-white/80 transition-colors">About Us</Link></li>
+              <li><Link to="/contact" className="hover:text-white/80 transition-colors">Contact</Link></li>
             </ul>
           </div>
 
+          {/* Programmes */}
           <div>
             <h4 className="font-bold mb-4">Programmes</h4>
             <ul className="space-y-2 text-sm text-white/80">
-              <li>Supply Chain</li>
-              <li>Project Management</li>
-              <li>Digital Transformation</li>
-              <li>Leadership</li>
+              <li><Link to="/learnerships" className="hover:text-white transition-colors">Learnerships</Link></li>
+              <li><Link to="/slps" className="hover:text-white transition-colors">Short Programmes</Link></li>
+              <li><Link to="/masterclasses" className="hover:text-white transition-colors">Masterclasses</Link></li>
+              <li>Custom Solutions</li>
             </ul>
           </div>
 
+          {/* Connect */}
           <div>
             <h4 className="font-bold mb-4">Connect</h4>
             <p className="text-sm text-white/80 mb-2">info@empodera.co.za</p>
