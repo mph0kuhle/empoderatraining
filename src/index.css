@@ -148,3 +148,17 @@
 .markdown-preview ol {
   @apply my-4 ml-6;
 }
+/* Add this CSS globally for the auto-scroll animation */
+@keyframes scroll-loop {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%); /* Moves the first set of logos completely off-screen */
+  }
+}
+
+/* Apply the animation to the container */
+.animate-scroll {
+  animation: scroll-loop 40s linear infinite; /* Adjust duration for speed */
+}
