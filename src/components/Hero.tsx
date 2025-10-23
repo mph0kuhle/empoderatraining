@@ -7,8 +7,12 @@ interface HeroProps {
   onQuoteClick: () => void;
 }
 
-// ⚠️ Refactor: Define configuration once for reuse (e.g., in the footer)
+// Refactor: Define configuration once for reuse (e.g., in the footer)
 const particlesOptions = {
+    // 1. CRITICAL FIX: CONTAIN PARTICLES TO THE HERO SECTION
+    fullScreen: {
+        enable: false, // <-- CHANGED from true to false: Particles are now contained.
+    },
     background: {
         color: {
             value: "transparent", 
@@ -46,8 +50,9 @@ const particlesOptions = {
                 value_area: 800,
             },
         },
+        // Using the user's preferred colors: opaque white
         color: {
-            value: ["#ffffff", "#93c5fd", "#3349df"], // White, Light Blue, Empodera Blue
+            value: ["#ffffff15",],
         },
         shape: {
             type: "circle",
@@ -94,8 +99,6 @@ const particlesOptions = {
 
 
 const Hero: React.FC<HeroProps> = ({ onExploreClick, onQuoteClick }) => {
-    
-    // Step 1: Initialize the particle engine only once
     const [particlesInit, setParticlesInit] = React.useState(false);
 
     React.useEffect(() => {
@@ -109,16 +112,23 @@ const Hero: React.FC<HeroProps> = ({ onExploreClick, onQuoteClick }) => {
 
 
   return (
+    // Parent remains 'relative' and 'flex items-center justify-center' for initial layout setup
     <section className="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
         
       {/* Background Image (Updated to use a SA-look placeholder) */}
       <div 
         className="absolute inset-0 bg-cover bg-center"
-        // ⚠️ Placeholder for a Black Faces/SA-look image. PLEASE REPLACE!
+        // Placeholder for a Black Faces/SA-look image. PLEASE REPLACE!
         style={{ backgroundImage: `url('https://d64gsuwffb70l.cloudfront.net/68eca18a5084cb1aee71fbcc_1760338384689_f4ca5fee.webp')` }}
       />
-      {/* Blue Overlay to provide contrast for white text/particles */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#3349df]/95 via-[#2c4ae8]/90 to-[#2640c8]/95" />
+      
+      {/* 2. BLUE OVERLAY: precise RGB/opacities */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background: 'linear-gradient(135deg, rgba(111, 127, 234, 0.5) 0%, rgba(44,74,232,0.5) 50%, rgba(38,64,200,0.5) 100%)'
+        }}
+      />
       
       {/* ⚠️ PARTICLE EFFECT LAYER - Contained within the Hero section */}
       {particlesInit && (
@@ -126,15 +136,20 @@ const Hero: React.FC<HeroProps> = ({ onExploreClick, onQuoteClick }) => {
               id="tsparticles-hero" // Changed ID to be unique
               options={particlesOptions as any} 
               style={{
-                  position: "absolute",
+                  position: "absolute", // Pin to the parent
                   width: "100%",
                   height: "100%",
                   zIndex: 5, // Below the text, above the overlay
+                  top: 0, 
+                  left: 0,
               }}
           />
       )}
       
-      <div className="relative z-10 max-w-6xl mx-auto px-6 text-center text-white">
+      {/* 3. TEXT CONTENT: CRITICAL FIX: Making this 'absolute inset-0' ensures it 
+             covers the whole section, allowing the internal 'mx-auto' to work perfectly
+             and solving the right-shift issue. We also make it a flex container to center its contents. */}
+      <div className="absolute inset-0 z-10 max-w-6xl mx-auto px-6 text-center text-white flex flex-col items-center justify-center">
         <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in-up">
           Empower Your Workforce.<br />Transform Your Future.
         </h1>

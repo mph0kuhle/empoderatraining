@@ -7,6 +7,9 @@ import { loadSlim } from "@tsparticles/slim";
 // ⚠️ We need to re-define the particles options here since we cannot import them
 // from the Hero component directly without changing file structure
 const particlesOptions = {
+  fullScreen: {
+        enable: true, 
+    },
     background: {
         color: {
             value: "transparent", 
