@@ -4,7 +4,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Zap, Clock, TrendingUp, Users, Trello, Target, Award } from 'lucide-react'; 
 
-// Placeholder SLP Card Component (Reusing the design logic)
+interface ShortProgramme {
+    title: string;
+    slug: string;
+    duration: string;
+};
+
+const sortAlphabetically = (a: ShortProgramme, b: ShortProgramme): number => {
+    return a.title.localeCompare(b.title);
+};
+
 const SLPCard: React.FC<{ title: string; slug: string; duration: string }> = ({ title, slug, duration }) => (
     <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100 flex flex-col hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
         <span className="text-xs font-semibold uppercase text-gray-500 tracking-wider bg-gray-100 py-1 px-3 rounded-full mb-3 inline-block">
@@ -28,8 +37,7 @@ const SLPCard: React.FC<{ title: string; slug: string; duration: string }> = ({ 
 
 const SLPPage: React.FC = () => {
     
-    // ⚠️ UPDATED list of 15 SLPs based on Slide 9 content
-    const featuredSLPs = [
+   const rawSLPs: ShortProgramme[] = [
         { title: 'Digital Transformation & Future of Work', slug: 'digital-transform', duration: '3 Days' },
         { title: 'Artificial Intelligence & Data Analytics for Business', slug: 'ai-data-analytics', duration: '5 Days' },
         { title: 'Cybersecurity Fundamentals', slug: 'cybersecurity-fundamentals', duration: '2 Days' },
@@ -47,7 +55,7 @@ const SLPPage: React.FC = () => {
         { title: 'Sales Mastery & Relationship Management', slug: 'sales-mastery', duration: '4 Days' },
     ];
     
-    const featuredCount = featuredSLPs.length;
+    const featuredSLPs = [...rawSLPs].sort(sortAlphabetically);
 
 
     return (
@@ -138,7 +146,7 @@ const SLPPage: React.FC = () => {
 
             {/* --- 3. Programmes Grid --- */}
             <section className="max-w-7xl mx-auto px-6 py-16 bg-white rounded-t-3xl shadow-inner">
-                <h2 className="text-4xl font-extrabold text-gray-900 mb-10 text-center">Our Full Portfolio of Short Learning Programmes ({featuredCount})</h2>
+                <h2 className="text-4xl font-extrabold text-gray-900 mb-10 text-center">Our Full Portfolio of Short Learning Programmes</h2>
                 
                 {/* ⚠️ Adjusted grid to maintain clean blocks of 3 */}
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
