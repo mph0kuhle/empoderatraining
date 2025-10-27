@@ -4,8 +4,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Target, Award, DollarSign, Users, Briefcase, Zap, Trello, Clock } from 'lucide-react'; 
 
+// --- TYPES ---
+interface Learnership {
+    title: string;
+    slug: string;
+    seta: string;
+    saqaId: string;
+}
+
 // Placeholder Learnership Card Component (Based on your home page design)
-const LearnershipCard: React.FC<{ title: string; slug: string; seta: string; saqaId: string }> = ({ title, slug, seta, saqaId }) => (
+const LearnershipCard: React.FC<Learnership> = ({ title, slug, seta, saqaId }) => (
     <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100 flex flex-col hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
         <span className="text-xs font-semibold uppercase text-gray-500 tracking-wider bg-gray-100 py-1 px-3 rounded-full mb-3 inline-block">
             {seta}
@@ -27,12 +35,42 @@ const LearnershipCard: React.FC<{ title: string; slug: string; seta: string; saq
     </div>
 );
 
+
+/**
+ * Sorting function to prioritize TETA learnerships first, 
+ * then sort the remaining learnerships alphabetically by SETA name.
+ * @param a - The first learnership object
+ * @param b - The second learnership object
+ * @returns - A number indicating sort order
+ */
+const sortLearnerships = (a: Learnership, b: Learnership): number => {
+    // 1. Prioritize TETA
+    const isATETA = a.seta.includes('TETA');
+    const isBTETA = b.seta.includes('TETA');
+
+    if (isATETA && !isBTETA) {
+        return -1; // a comes before b (TETA first)
+    }
+    if (!isATETA && isBTETA) {
+        return 1;  // b comes before a (TETA first)
+    }
+
+    // 2. Secondary sort: Alphabetical by SETA name
+    const setaComparison = a.seta.localeCompare(b.seta);
+    if (setaComparison !== 0) {
+        return setaComparison;
+    }
+
+    // 3. Tertiary sort: Alphabetical by title (to stabilize the order within a SETA)
+    return a.title.localeCompare(b.title);
+};
+
+
 // --- MAIN PAGE COMPONENT ---
 
 const LearnershipsPage: React.FC = () => {
     
-    // ⚠️ UPDATED list of learnerships based on the exact list provided
-    const featuredLearnerships = [
+    const rawLearnerships: Learnership[] = [
         { title: 'Contact Centre', slug: 'contact-centre', seta: 'Services SETA', saqaId: '99687' },
         { title: 'Supply Chain Practitioner', slug: 'supply-chain-practitioner', seta: 'TETA', saqaId: '110942' },
         { title: 'Freight Handler', slug: 'freight-handler', seta: 'TETA', saqaId: '96396' },
@@ -43,10 +81,12 @@ const LearnershipsPage: React.FC = () => {
         { title: 'Road Transport Manager', slug: 'road-transport-manager', seta: 'TETA', saqaId: '96371' },
         { title: 'Clearing and Forwarding Agent', slug: 'clearing-forwarding-agent', seta: 'TETA', saqaId: '96368' },
     ];
+    
+    const featuredLearnerships = rawLearnerships.sort(sortLearnerships);
 
-    // Separate the array into groups of three for clean layout if desired
     const featuredCount = featuredLearnerships.length;
-    // Note: Since 9 is easily divisible by 3, we can use the full list.
+
+    // ... (rest of the component remains the same)
 
     return (
         <main className="bg-[#f9fafc] min-h-screen">
@@ -137,10 +177,11 @@ const LearnershipsPage: React.FC = () => {
 
             {/* --- 3. Featured Learnerships Grid --- */}
             <section className="max-w-7xl mx-auto px-6 py-16 pt-0">
-                <h2 className="text-4xl font-extrabold text-gray-900 mb-10 text-center">Our Full Portfolio of Learnerships ({featuredCount})</h2>
+                <h2 className="text-4xl font-extrabold text-gray-900 mb-10 text-center">Our Full Portfolio of Learnerships </h2>
                 
                 {/* ⚠️ Adjusted grid to maintain clean blocks of 3 */}
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {/* The list rendered here is now sorted */}
                     {featuredLearnerships.map((learnership) => (
                         <LearnershipCard key={learnership.slug} {...learnership} />
                     ))}
