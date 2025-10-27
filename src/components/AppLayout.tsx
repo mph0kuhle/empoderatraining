@@ -31,7 +31,6 @@ const AppLayout: React.FC = () => {
       <CorporateSolutions onQuoteClick={() => setIsQuoteModalOpen(true)} />
       <Testimonials />
       <ContactSection />
-      <Footer />
       
       <EasyQuoteModal 
         isOpen={isQuoteModalOpen}
